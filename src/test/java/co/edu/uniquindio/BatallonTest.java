@@ -2,86 +2,34 @@ package co.edu.uniquindio;
 
 import org.junit.jupiter.api.*;
 
-import java.util.logging.Logger;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class BatallonTest {
 
-    private static final Logger LOG = Logger.getLogger(BatallonTest.class.getName());
+    private Batallon batallon;
+    private TransporteTropas transporte;
 
-    @DisplayName("Prueba assertEquals")
+    @BeforeEach
+    void iniciar() {
+        batallon = new Batallon("01", "Cacique", "03", "Calarcá", 3);
+        transporte = new TransporteTropas("T-01", "Camión de tropas", 2020, 12000, EstadoOperativo.DISPONIBLE, 25);
+    }
+
     @Test
-    void testInicial(){
-        LOG.info("Iniciando prueba Batallon...");
-
-        int resultado = 1 + 2;
-
-        assertEquals(3,resultado);
-
-        LOG.info("Finalizando prueba Batallon...");
+    void testAgregarVehiculoIdNuevo() {
+        assertTrue(batallon.registrarVehiculo(transporte));
+        assertNotNull(batallon.buscarVehiculo("T-01"));
+        assertEquals(1, batallon.getListaVehiculos().size());
     }
 
-    @DisplayName("Prueba assertNotEquals")
     @Test
-    void testNotEquals(){
-        LOG.info("Iniciando prueba Batallon...");
+    void testNoAgregarVehiculoIdRepetido() {
+        batallon.registrarVehiculo(transporte);
+        TransporteTropas repetido = new TransporteTropas("T-01", "Otro camión", 2019, 100, EstadoOperativo.DISPONIBLE, 10);
 
-        String cadena = "Hola a todos";
-
-        assertNotEquals("Adios",cadena);
-
-        LOG.info("Finalizando prueba Batallon...");
-    }
-
-    @DisplayName("Prueba assertNull")
-    @Test
-    void testNull(){
-        LOG.info("Iniciando prueba Batallon...");
-
-        Batallon batallon = null;
-
-        assertNull(batallon);
-
-        LOG.info("Finalizando prueba Batallon...");
-    }
-
-    @DisplayName("Prueba assertNotNull")
-    @Test
-    void testNotNull(){
-        LOG.info("Iniciando prueba Batallon...");
-
-        Batallon batallon = new Batallon("01", "Cacique", "03", "Calarca", 3);
-
-        assertNotNull(batallon);
-
-        LOG.info(batallon.toString());
-        LOG.info("Finalizando prueba Batallon...");
-    }
-
-    @DisplayName("Prueba assertTrue/assertFalse")
-    @Test
-    void testFalseTrue(){
-        LOG.info("Iniciando prueba Batallon...");
-
-        Batallon batallon = new Batallon("01", "Cacique", "03", "Calarca", 3);
-
-        assertTrue(batallon.getNumero() < 5);
-        assertFalse(batallon.getNombre().equals("Calarca cacique"));
-
-        LOG.info(batallon.toString());
-        LOG.info("Finalizando prueba Batallon...");
-    }
-
-
-    //@BeforeEach
-    void ejecutarAntes(){
-        LOG.warning("Ejecucion del BeforeEach");
-    }
-
-//    @AfterEach
-    void ejecutarDespues(){
-        LOG.warning("Ejecucion del AfterEach");
+        assertFalse(batallon.registrarVehiculo(repetido));
+        assertEquals(1, batallon.getListaVehiculos().size());
+        assertEquals("Camión de tropas", batallon.buscarVehiculo("T-01").getModelo());
     }
 
 }

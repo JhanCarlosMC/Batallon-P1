@@ -25,7 +25,7 @@ git clone https://github.com/TU_USUARIO/nombre-repo.git
 cd nombre-repo
 ```
 
-### 3. Trabajar en una rama
+### 3. Trabajar en Main
 ```bash
 git checkout -b feature/mi-cambio
 # ... editas, pruebas ...
@@ -36,12 +36,6 @@ git commit -m "Agrega validación de usuario"
 ### 4. Subir a tu fork
 ```bash
 git push origin feature/mi-cambio
-```
-Cuando termines una funcionalidad, únela a `main`:
-```bash
-git checkout main
-git merge feature/mi-cambio
-git push origin main
 ```
 
 ### 5. Entregar
